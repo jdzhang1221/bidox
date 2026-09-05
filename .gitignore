@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# 依赖
+.uv/
+.pdm.toml
+
+# 配置与密钥
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# 数据与缓存
+data/
+*.db
+*.sqlite3
+models/
+.cache/
+
+# 日志
+logs/
+*.log
+
+# 测试
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 临时文件
+tmp/
+*.tmp

@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bidox-ai"
+version = "0.1.0"
+description = "BidOx AI 标书生成助手 - 文档智能解析 / 知识库 / RAG / 标书生成服务"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary" }
+authors = [{ name = "BidOx" }]
+
+# 核心依赖:保证骨架可导入、docx 链路可跑通
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.2",
+    "python-docx>=1.1",
+    "pypdf>=4.2",
+    "pymupdf>=1.24",
+    "httpx>=0.27",
+    "tenacity>=8.2",
+    "sqlalchemy>=2.0",
+    "psycopg[binary]>=3.1",
+    "pgvector>=0.2.5",
+    "pika>=1.3",
+    "minio>=7.2",
+    "python-multipart>=0.0.9",
+    "orjson>=3.10",
+]
+
+# 重型/可选依赖:按需安装(懒加载,未安装时降级为 stub 并告警)
+[project.optional-dependencies]
+ocr = [
+    "paddleocr>=2.7",
+    "paddlepaddle>=2.6",
+]
+mineru = [
+    "magic-pdf>=0.9",
+]
+embedding = [
+    "sentence-transformers>=2.7",
+    "FlagEmbedding>=1.2",
+]
+reranker = [
+    "FlagEmbedding>=1.2",
+]
+
+# 开发依赖:uv sync 默认安装
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.4",
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+ignore = ["E501"]
