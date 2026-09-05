@@ -23,6 +23,14 @@ class ParseRequest(BaseModel):
     document_type: str = "historical_bid"
 
 
+class LocalParseRequest(BaseModel):
+    """本地文件解析请求(本地调试用,直接传本地路径)。"""
+
+    path: str
+    document_id: int | None = None
+    document_type: str = "historical_bid"
+
+
 class SearchRequest(BaseModel):
     """检索请求。"""
 

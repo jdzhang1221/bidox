@@ -51,6 +51,13 @@ class Settings(BaseSettings):
     embedding_device: str = "cpu"
     embedding_batch_size: int = 32
     embedding_required: bool = False
+    # local = FlagEmbedding 进程内加载; ollama = 走 Ollama HTTP API
+    embedding_provider: str = "local"
+
+    # --- Ollama (embedding_provider=ollama 时使用) ---
+    ollama_base_url: str = "http://localhost:11434"
+    ollama_embedding_model: str = "bge-m3"
+    ollama_timeout: float = 60.0
 
     # --- Reranker ---
     reranker_model: str = "BAAI/bge-reranker-v2-m3"

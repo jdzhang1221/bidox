@@ -10,11 +10,20 @@ from app.embedding.bge_m3 import BgeM3Embedder
 logger = get_logger(__name__)
 
 
+def create_embedder() -> BaseEmbedder:
+    """按 embedding_provider 选择向量化后端(local / ollama)。"""
+    if settings.embedding_provider == "ollama":
+        from app.embedding.ollama import OllamaEmbedder
+
+        return OllamaEmbedder()
+    return BgeM3Embedder()
+
+
 class EmbeddingService:
     """批量向量化服务。"""
 
     def __init__(self, embedder: BaseEmbedder | None = None) -> None:
-        self._embedder = embedder or BgeM3Embedder()
+        self._embedder = embedder or create_embedder()
 
     @property
     def embedder(self) -> BaseEmbedder:

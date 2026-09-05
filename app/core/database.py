@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterator
+from contextlib import contextmanager
 from typing import Any
 
 from sqlalchemy import create_engine
@@ -47,6 +48,7 @@ def get_session() -> Session:
     return _session_factory()
 
 
+@contextmanager
 def session_scope() -> Iterator[Session]:
     """上下文管理器形式的会话,自动提交/回滚。"""
     session = get_session()
