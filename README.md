@@ -1,8 +1,15 @@
-# BidOx AI 标书生成助手
+# BidOx AI · 标书生成 AI 服务
 
-BidOx 的 AI 服务（独立 Python 服务），负责**文档智能解析 → 结构化 → 向量化 → 检索 → RAG → 招标分析 → 标书生成**。
+**BidOx（数牛智标）** 是面向招投标场景的 AI 写标书 SaaS 平台，业务主链路为：
+
+> 招标文件理解 → 评分点拆解 → 企业知识匹配 → AI 标书生成 → 评分点审核
+
+本仓库是平台的三端之一，承担 **AI 服务** 职责（独立 Python 服务），负责**文档智能解析 → 结构化 → 向量化 → 检索 → RAG → 招标分析 → 标书生成**。
 
 与 Java 侧（`bidox-service`）的边界：Java 负责用户/租户/企业/项目/文件上传/业务库/MQ 投递；Python 负责解析、AST、Section、Chunk、Embedding、pgvector 检索、RAG、LLM。
+
+
+> **当前阶段：核心 AI 链路已打通，尚未与平台其他端集成。** 详见 [当前进展](#当前进展)。
 
 ## 技术栈
 
@@ -168,9 +175,39 @@ uv run python scripts/test_rag_api.py            # API 测试(默认 http://loca
 uv run python -m pytest tests/                   # 回归测试
 ```
 
-## 开发阶段（建议）
+## 当前进展
 
-- **Phase 1**：DOCX → AST → Section → Chunk → Embedding → pgvector（先拿历史标书跑通）✅
-- **Phase 2**：PDF → pdf_inspector，再加 MinerU / PaddleOCR
-- **Phase 3**：招标 PDF → LLM 提取要求/评分/风险 ✅（`/tender/analyze`）
-- **Phase 4**：RAG + 标书生成 + AI 审核 + Word 导出（RAG V2 已打通，生成/导出待扩展）
+**代码规模**：82 个 Python 文件、约 5,300 行。本服务是三个子项目中**完成度最高**的一个，核心 AI 链路已打通。
+
+| 阶段 | 能力 | 状态 |
+| --- | --- | --- |
+| Phase 1 | DOCX → AST → Section → Chunk → Embedding → pgvector 全链路 | ✅ |
+| Phase 1 | 方案组件（Solution Pattern）抽取 + 去事实化 `generalized_content` | ✅ |
+| Phase 2 | PDF 解析（`pdf_inspector` / PyMuPDF）；PaddleOCR / MinerU 降级接入 | ✅ |
+| Phase 3 | 招标文件结构化分析：要求 / 评分点 / 风险（`/tender/analyze`） | ✅ |
+| Phase 4 | RAG V2 检索链路（Query 理解 + 双通道召回 + reranker + 四层 Evidence Pack + 事实隔离） | ✅ |
+| Phase 4 | RAG 生成（`/knowledge/rag`、`/knowledge/generate` 返回成文 `answer`） | ✅ |
+| Phase 4 | 标书全文编排 / Word 导出 / AI 审核 | ⬜ 未开始 |
+
+### ⚠️ 当前环境限制（本机）
+
+| 依赖 | 状态 | 影响 |
+| --- | --- | --- |
+| Ollama (`11434`) | 未运行 | `.env` 中 `EMBEDDING_PROVIDER=ollama`，向量化暂不可用；可改为 `local` 走进程内 BGE-M3 |
+| RabbitMQ (`5672`) | 未运行 | MQ 消费者（`app/tasks/consumer`）不可用，只能走同步 API |
+| MinIO (`9000`) | 未运行 | 文件存储不可用 |
+| Docker | 未安装 | `docker compose up -d` 无法执行，需自备 PostgreSQL + pgvector 等中间件 |
+
+API 服务本身可正常启动：健康检查 `/health`、Swagger `/docs` 均可用。
+
+### 🔗 与平台其他端的集成状态
+
+Java 侧 `bidox-service` 尚未实现向本服务投递解析任务、回写结果的链路，因此 AI 能力目前**只能通过 HTTP API 独立调用**，尚未接入管理后台的业务流程。
+
+## 相关项目
+
+| 项目 | 路径 | 职责 | 端口 |
+| --- | --- | --- | --- |
+| **bixox-ai**（bidox-ai） | `ai-service/bixox-ai` | AI 服务：解析 / 向量化 / RAG / 生成（本仓库） | 8000 |
+| **bidox-service** | `backend/bidox-service` | Web 端管理后台服务（Java / Spring Boot） | 48080 |
+| **bidox-ui** | `frontend/bidox-ui` | 前端管理后台（Vben Admin v5.7.0） | 5666 |
