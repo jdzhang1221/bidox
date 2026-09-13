@@ -45,3 +45,6 @@ htmlcov/
 # 临时文件
 tmp/
 *.tmp
+
+# WorkBuddy 工作记忆(本地)
+.workbuddy-ai/
