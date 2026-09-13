@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 from app.llm.gateway import LLMGateway
-from app.tender.models import RiskItem
+from app.tender.models import RiskItem, coerce_page, coerce_section
 
 _SYSTEM = (
     "你是招标文件分析专家。请从给定文本中识别所有投标风险点,"
     "以 JSON 数组返回,每个风险点包含 code(编号Risk001起)、description(描述)、"
-    "level(风险等级 high/medium/low)、page(页码,无则null)。"
+    "level(风险等级 high/medium/low)、page(页码,整数,无则null)、"
+    "section(该风险点所属章节,取最近的章/节标题或编号,无则null)。"
     "只输出 JSON,不要解释。"
 )
 
@@ -25,4 +26,15 @@ class RiskExtractor:
         items = data.get("risks", data) if isinstance(data, dict) else data
         if not isinstance(items, list):
             return []
-        return [RiskItem(**it) for it in items]
+        results: list[RiskItem] = []
+        for it in items:
+            if not isinstance(it, dict):
+                continue
+            it = dict(it)
+            it["page"] = coerce_page(it.get("page"))
+            it["section"] = coerce_section(it.get("section"))
+            try:
+                results.append(RiskItem(**it))
+            except Exception:
+                continue
+        return results

@@ -68,6 +68,9 @@ def init_db() -> None:
         DocumentChunk,
         DocumentRecord,
         DocumentSection,
+        KnowledgeBase,
+        PatternSource,
+        SolutionPattern,
     )
 
     engine = get_engine()

@@ -3,12 +3,18 @@
 from __future__ import annotations
 
 import httpx
+from tenacity import retry, retry_if_exception, stop_after_attempt, wait_fixed
 
 from app.core.config import settings
 from app.core.logging import get_logger
 from app.embedding.base import BaseEmbedder, EmbeddingError
 
 logger = get_logger(__name__)
+
+
+def _is_transient(exc: BaseException) -> bool:
+    """Ollama 模型重载时会短暂返回 502/503/504,视为可重试的瞬时错误。"""
+    return isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code in (502, 503, 504)
 
 
 class OllamaEmbedder(BaseEmbedder):
@@ -27,17 +33,7 @@ class OllamaEmbedder(BaseEmbedder):
     def embed(self, texts: list[str]) -> list[list[float]]:
         if not texts:
             return []
-        try:
-            resp = httpx.post(
-                f"{self._base_url}/api/embed",
-                json={"model": self.model_name, "input": texts},
-                timeout=self._timeout,
-            )
-            resp.raise_for_status()
-            payload = resp.json()
-        except httpx.HTTPError as exc:
-            raise EmbeddingError(f"Ollama 调用失败({self._base_url}): {exc}") from exc
-
+        payload = self._post(texts).json()
         vectors = payload.get("embeddings", [])
         if len(vectors) != len(texts):
             raise EmbeddingError(
@@ -53,6 +49,24 @@ class OllamaEmbedder(BaseEmbedder):
                 )
             result.append(list(v))
         return result
+
+    @retry(
+        retry=retry_if_exception(_is_transient),
+        stop=stop_after_attempt(6),
+        wait=wait_fixed(15),
+        reraise=True,
+    )
+    def _post(self, texts: list[str]) -> httpx.Response:
+        try:
+            resp = httpx.post(
+                f"{self._base_url}/api/embed",
+                json={"model": self.model_name, "input": texts},
+                timeout=self._timeout,
+            )
+            resp.raise_for_status()
+            return resp
+        except httpx.HTTPError as exc:
+            raise EmbeddingError(f"Ollama 调用失败({self._base_url}): {exc}") from exc
 
     def embed_query(self, text: str) -> list[float]:
         return self.embed([text])[0]

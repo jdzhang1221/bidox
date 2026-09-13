@@ -13,7 +13,7 @@ from app.document.parser.base import ParseError
 from app.document.parser.factory import default_factory
 from app.document.section.classifier import SectionClassifier
 from app.document.section.detector import SectionDetector
-from app.document.section.models import Section
+from app.document.section.models import Section, flatten_sections_with_parent
 
 logger = get_logger(__name__)
 
@@ -61,6 +61,9 @@ class DocumentPipeline:
         # 3. 章节分类
         classifier = SectionClassifier(document_type=document_type)
         classifier.classify(sections)
+
+        # 3.5 给章节分配临时 id(展平序列下标),供切分时给 chunk 回填来源章节
+        flatten_sections_with_parent(sections)
 
         # 4. 切分
         splitter = ChunkSplitter(document_id=self.document_id, document_type=document_type)

@@ -13,6 +13,8 @@ class Chunk(BaseModel):
     document_id: int | None = None
     section_id: int | None = None
     chunk_index: int = 0
+    # paragraph / table / list / heading / mixed
+    chunk_type: str = "paragraph"
 
     # 标题:继承自所属章节(如 "5.1.2 数据架构")
     title: str | None = None
@@ -35,6 +37,7 @@ class Chunk(BaseModel):
             "document_id": self.document_id,
             "section_id": self.section_id,
             "chunk_index": self.chunk_index,
+            "chunk_type": self.chunk_type,
             "title": self.title,
             "content": self.content,
             "document_type": self.document_type,

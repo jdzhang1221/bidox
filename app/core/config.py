@@ -63,6 +63,7 @@ class Settings(BaseSettings):
     reranker_model: str = "BAAI/bge-reranker-v2-m3"
     reranker_top_k: int = 5
     reranker_enabled: bool = False
+    reranker_recall_k: int = 20  # 重排前召回候选数(recall-then-rerank)
 
     # --- LLM ---
     llm_provider: str = "deepseek"
@@ -80,6 +81,10 @@ class Settings(BaseSettings):
     # --- 检索 ---
     retrieval_top_k: int = 10
     retrieval_fusion_k: int = 60
+
+    # --- 企业事实(enterprise_facts 层:document_type 定向检索) ---
+    enterprise_fact_document_types: list[str] = ["enterprise_profile", "qualification", "project_case"]
+    enterprise_fact_top_k: int = 5
 
     @property
     def minio_storage_url(self) -> str:

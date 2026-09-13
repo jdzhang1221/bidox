@@ -2,7 +2,26 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from pydantic import BaseModel, Field
+
+
+def coerce_page(value: Any) -> int | None:
+    """LLM 页码容错:整数直取,数字字符串取首个数字,其余返回 None。"""
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        digits = "".join(ch for ch in value if ch.isdigit())
+        return int(digits) if digits else None
+    return None
+
+
+def coerce_section(value: Any) -> str | None:
+    """LLM 章节容错:非空字符串直取,其余返回 None。"""
+    return value if isinstance(value, str) and value.strip() else None
 
 
 class Requirement(BaseModel):
@@ -13,6 +32,7 @@ class Requirement(BaseModel):
     description: str
     mandatory: bool = True
     page: int | None = None
+    section: str | None = None  # 所属章节(章/节标题或编号)
 
 
 class ScoreItem(BaseModel):
@@ -23,6 +43,7 @@ class ScoreItem(BaseModel):
     score: float = 0.0  # 分值
     criteria: str = ""  # 评分标准
     page: int | None = None
+    section: str | None = None  # 所属章节(章/节标题或编号)
 
 
 class RiskItem(BaseModel):
@@ -32,6 +53,7 @@ class RiskItem(BaseModel):
     description: str
     level: str = "medium"  # high / medium / low
     page: int | None = None
+    section: str | None = None  # 所属章节(章/节标题或编号)
 
 
 class TenderAnalysis(BaseModel):

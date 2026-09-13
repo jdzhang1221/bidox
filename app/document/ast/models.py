@@ -133,6 +133,29 @@ class Document(BaseModel):
                 parts.append(b.to_text())
         return parts
 
+    def to_text_with_pages(self) -> str:
+        """拼全文(供 LLM 分析),在页码变化处插入 [第N页] 标记,便于要求/评分点追溯页码。
+
+        段落/标题/题注取 text,表格转 Markdown,列表转文本,跳过图片;
+        页码缺失(如 Word)时退化为纯文本拼接。
+        """
+        parts: list[str] = []
+        last_page: int | None = None
+        for b in self.blocks:
+            if isinstance(b, Image):
+                continue
+            page = b.page
+            if page is not None and page != last_page:
+                parts.append(f"[第{page}页]")
+                last_page = page
+            if isinstance(b, (Heading, Paragraph, Caption)):
+                parts.append(b.text)
+            elif isinstance(b, Table):
+                parts.append(b.to_markdown())
+            elif isinstance(b, ListBlock):
+                parts.append(b.to_text())
+        return "\n\n".join(parts)
+
 
 def _esc(cell: str) -> str:
     """转义 Markdown 表格单元格中的竖线。"""

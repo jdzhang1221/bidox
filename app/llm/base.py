@@ -13,11 +13,11 @@ class BaseLLMClient(ABC):
     """统一 LLM 接口(OpenAI 兼容)。"""
 
     @abstractmethod
-    def complete(self, prompt: str, system: str | None = None) -> str:
-        """补全(非流式)。"""
+    def complete(self, prompt: str, system: str | None = None, timeout: float | None = None) -> str:
+        """补全(非流式)。timeout 为单次调用超时,缺省用配置值。"""
         raise NotImplementedError
 
     @abstractmethod
-    def chat(self, messages: list[dict], json_mode: bool = False) -> str:
-        """多轮对话。"""
+    def chat(self, messages: list[dict], json_mode: bool = False, timeout: float | None = None) -> str:
+        """多轮对话。timeout 为单次调用超时,缺省用配置值。"""
         raise NotImplementedError

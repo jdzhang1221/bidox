@@ -43,14 +43,14 @@ class LLMGateway:
     def client(self) -> BaseLLMClient:
         return self._client
 
-    def complete(self, prompt: str, system: str | None = None) -> str:
-        return self._client.complete(prompt, system)
+    def complete(self, prompt: str, system: str | None = None, timeout: float | None = None) -> str:
+        return self._client.complete(prompt, system, timeout=timeout)
 
-    def complete_json(self, prompt: str, system: str | None = None) -> dict:
+    def complete_json(self, prompt: str, system: str | None = None, timeout: float | None = None) -> dict:
         """结构化输出(JSON)。"""
         if hasattr(self._client, "complete_json"):
-            return self._client.complete_json(prompt, system)  # type: ignore[union-attr]
-        return self._client.complete(prompt, system)  # type: ignore[return-value]
+            return self._client.complete_json(prompt, system, timeout=timeout)  # type: ignore[union-attr]
+        return self._client.complete(prompt, system, timeout=timeout)  # type: ignore[return-value]
 
 
 @lru_cache

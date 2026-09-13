@@ -53,7 +53,7 @@ class ChunkSplitter:
                     block,
                     title=title,
                     document_id=self.document_id,
-                    section_id=None,  # 入库后回填
+                    section_id=section.id,  # 临时 id,入库后映射为真实 section_id
                     document_type=self.document_type,
                     section_type=section_type,
                     start_index=self._index,
@@ -89,6 +89,7 @@ class ChunkSplitter:
                     content=piece,
                     title=title,
                     document_id=self.document_id,
+                    section_id=section.id,  # 临时 id,入库后映射为真实 section_id
                     document_type=self.document_type,
                     section_type=section_type,
                     page_start=section.page_start,

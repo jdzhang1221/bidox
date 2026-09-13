@@ -29,6 +29,7 @@ def table_to_chunks(
         "section_type": section_type,
         "page_start": table.page,
         "page_end": table.page,
+        "chunk_type": "table",
     }
 
     # 表格尽量整体;超大表按 max_chars 拆,但以"整行"为单位

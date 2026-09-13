@@ -1,0 +1,934 @@
+{
+  "status": 200,
+  "body": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "requirements": [
+        {
+          "code": "R001",
+          "category": "资格要求",
+          "description": "供应商须具有有效的营业执照。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R002",
+          "category": "资格要求",
+          "description": "供应商须具有财政部门颁发的有效期内的会计师事务所执业证书。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R003",
+          "category": "资格要求",
+          "description": "供应商拟派项目负责人须具有注册会计师证书。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R004",
+          "category": "资格要求",
+          "description": "供应商须提供“洛阳市政府采购供应商信用承诺函”，承诺符合相关条件，并加盖单位公章。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R005",
+          "category": "资格要求",
+          "description": "供应商负责人为同一人或者存在控股、管理关系的不同单位，不得同时对本项目响应；须提供“国家企业信用信息公示系统”查询打印的相关材料（包含公司基本信息、股东信息及股权变更信息）。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R006",
+          "category": "资格要求",
+          "description": "本项目不接受联合体投标。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R007",
+          "category": "资格要求",
+          "description": "供应商不得存在第二章“供应商须知”第1.4.3项规定的任何一种情形（如被列入政府采购严重违法失信行为记录名单、失信被执行人、重大税收违法失信主体、近三年行贿犯罪等）。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R008",
+          "category": "符合性要求",
+          "description": "供应商名称与营业执照、执业证书一致。",
+          "mandatory": true,
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "R009",
+          "category": "符合性要求",
+          "description": "响应文件签字盖章符合竞争性磋商文件要求。",
+          "mandatory": true,
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "R010",
+          "category": "符合性要求",
+          "description": "报价只能有一个有效报价，且未超过预算控制金额，并按规定填报报价一览表。",
+          "mandatory": true,
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "R011",
+          "category": "符合性要求",
+          "description": "响应文件有效期符合供应商须知前附表的规定（提交响应文件截止时间起90天）。",
+          "mandatory": true,
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "R012",
+          "category": "符合性要求",
+          "description": "响应文件对磋商文件的实质性要求和条件作出满足性或更有利于采购人的响应，符合供应商须知前附表的规定。",
+          "mandatory": true,
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "R013",
+          "category": "符合性要求",
+          "description": "响应文件符合磋商文件的其他规定。",
+          "mandatory": true,
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "R014",
+          "category": "采购范围",
+          "description": "3包：对每年11家洛阳市总工会直属基层工会的经费预算执行及财务收支进行审计服务。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R015",
+          "category": "采购范围",
+          "description": "供应商应就所投采购包进行完整响应，不得拆分，否则将不被接受；供应商可对多个采购包同时投标，但最多只能中一个包。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R016",
+          "category": "服务要求",
+          "description": "服务期：三年（2026年6月至2029年6月），根据分配的审计项目，合同实行一年一签。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R017",
+          "category": "服务要求",
+          "description": "审计报告提交期限：每年度自采购人发出审计通知后90日历天内出具审计报告，并满足采购人要求。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R018",
+          "category": "服务要求",
+          "description": "服务地点：采购人指定地点。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R019",
+          "category": "服务要求",
+          "description": "服务要求：符合国家、行业相关标准及规范，满足采购人要求。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R020",
+          "category": "服务要求",
+          "description": "审计对象：每年11家洛阳市总工会直属基层工会。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R021",
+          "category": "服务要求",
+          "description": "审计频次：每年每次审计覆盖2个会计年度，每家单独开展审计。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R022",
+          "category": "服务要求",
+          "description": "审计内容：重点开展经费预算执行情况及财务收支审计，包括经费收支真实性、合法性、合规性核查；预算编制、执行、调整准确性、完整性核查；财务票据、账簿、报表规范性核查；财务核算、账务处理规范性核查；财务管理制度、内控流程执行情况核查；其他与工会经费管理相关的审计事项。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R023",
+          "category": "服务要求",
+          "description": "工作流程：项目负责人全面统筹推进审计全流程服务，包括对接协调、审计方案编制、审计通知下发、审计实施统筹、工作底稿复核、审计报告起草、报告征求意见、意见收集整理、正式报告下发、整改跟踪落实、资料立卷归档等；项目组成员履行具体审计服务职责。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R024",
+          "category": "服务要求",
+          "description": "质量要求：审计工作须严格遵循《中华人民共和国审计法》《中华人民共和国会计法》《中国工会审计条例》等相关法律法规，确保审计流程合法规范、审计结果客观真实。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R025",
+          "category": "服务要求",
+          "description": "质量要求：全面、细致核查审计对象财务凭证、会计账簿、财务报表、预算资料等相关文件，如实记录审计过程，精准识别问题，提出合理可行的整改建议。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R026",
+          "category": "服务要求",
+          "description": "质量要求：按时提交完整、规范的审计报告，包含审计概况、审计结果、审计评价、审计发现的主要问题及审计建议等核心内容，数据准确、依据充分、结论明确。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R027",
+          "category": "服务要求",
+          "description": "质量要求：严格履行保密义务，对审计过程中获取的审计对象财务信息、工会工作涉密信息等严格保密，不得泄露给任何第三方，服务期限届满后仍需持续保密，不得留存相关涉密资料。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R028",
+          "category": "履约要求",
+          "description": "服务期限内，须严格服从洛阳市总工会经审办的统一调度和工作安排，按照年度审计计划合理安排审计人员和审计进度，确保按时完成各阶段审计任务并提交审计报告。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R029",
+          "category": "履约要求",
+          "description": "项目团队人员需相对稳定，如需更换核心项目负责人，需提前书面报备洛阳市总工会经审办，经同意后方可更换，且更换后的人员资质不得低于原人员资质。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R030",
+          "category": "履约要求",
+          "description": "主动与审计对象、洛阳市总工会经审办沟通对接，及时协调解决审计工作中出现的问题，定期汇报审计进展情况，配合完成审计报告审核、修改及问题整改跟踪、复核等后续工作。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R031",
+          "category": "履约要求",
+          "description": "供应商须承诺全面响应本服务内容及要求，若存在未响应或虚假响应情况，视为无效履约，洛阳市总工会经审办有权取消其中标资格。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R032",
+          "category": "履约要求",
+          "description": "审计过程中产生的审计工作底稿、审计报告、核查记录等相关资料，需按要求整理归档，服务期满后全部移交洛阳市总工会经审办，不得擅自留存。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R033",
+          "category": "履约要求",
+          "description": "由于成交供应商原因导致项目延误或无法按原计划执行的，成交供应商需承担相应法律责任并赔偿采购人相应的损失。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R034",
+          "category": "履约要求",
+          "description": "供应商在履行合同义务期间应遵守国家有关法律法规、维护采购人的合法权益；所有工作人员必须遵守国家的法律法规及采购人的各项规章制度；因供应商工作失职造成的事故或其他财产损失和人身伤害，均由供应商承担；在服务期内利用采购人提供的技术资料和工作条件完成的新的技术成果归采购人所有。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R035",
+          "category": "履约要求",
+          "description": "若项目成果侵犯第三方知识产权或其他合法权益，供应商应承担全部侵权责任并赔偿采购人损失；供应商应保证项目成果不侵犯第三方权益并事先进行知识产权审查。",
+          "mandatory": true,
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "R036",
+          "category": "商务要求",
+          "description": "付款方式：具体以实际签订合同为准，须响应磋商文件要求。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R037",
+          "category": "商务要求",
+          "description": "响应文件有效期：提交响应文件截止时间起90天，有效期短于该期限的响应将被拒绝。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R038",
+          "category": "商务要求",
+          "description": "履约验收：采购人根据国家有关规定、磋商文件、成交供应商的响应文件、合同约定的内容和相关技术规范要求进行验收，验收情况作为付款依据。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R039",
+          "category": "商务要求",
+          "description": "本项目不允许分包。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R040",
+          "category": "商务要求",
+          "description": "不允许提交备选方案。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R041",
+          "category": "商务要求",
+          "description": "履约保证金：本项目免收履约保证金。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R042",
+          "category": "商务要求",
+          "description": "代理服务费由成交供应商支付，参照《河南省招标代理服务收费指导意见》豫招协【2023】002号规定的标准计取（不足3000元按3000元计取），此费用由供应商在磋商报价中综合考虑并承诺按时支付。",
+          "mandatory": true,
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "R043",
+          "category": "商务要求",
+          "description": "采购人和成交供应商应当在成交通知书发出之日起30日内签订书面合同。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R044",
+          "category": "商务要求",
+          "description": "本次招标采购成果的一切相关知识产品归采购人所有，成果内容如涉及侵权问题，后果由成交供应商承担。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R045",
+          "category": "响应文件要求",
+          "description": "响应文件份数：每包一份正本、二份副本，电子版U盘一份，并在每一份响应文件上明确注明“正本”或“副本”字样。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R046",
+          "category": "响应文件要求",
+          "description": "响应文件装订：正本和副本应分别胶装成册，编制目录及页码，不得采用活页夹装订。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R047",
+          "category": "响应文件要求",
+          "description": "签字或盖章：应按竞争性磋商文件要求加盖供应商公章及法定代表人或其委托代理人签字，正副本须一致；由委托代理人签字的，须同时提交响应文件签署授权委托书。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R048",
+          "category": "响应文件要求",
+          "description": "密封和标记：响应文件正本、副本、电子版用非透明文件袋或包装材料密封包装，外包装上注明项目名称、项目编号、供应商名称并加盖公章，并在规定时间前不准启封；投多个包时应分别密封。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R049",
+          "category": "响应文件要求",
+          "description": "响应文件格式：应按竞争性磋商文件第七章“响应文件格式”进行编写，如有必要可增加附页。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R050",
+          "category": "响应文件要求",
+          "description": "响应文件语言：使用中文，专用术语使用外文的应附中文注释。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R051",
+          "category": "响应文件要求",
+          "description": "响应文件不退还。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R052",
+          "category": "报价要求",
+          "description": "报价方式：单价报价（每家/年度）。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R053",
+          "category": "报价要求",
+          "description": "报价不得超过预算控制金额（最高限价）。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R054",
+          "category": "报价要求",
+          "description": "报价应包含为完成本项目所需要的全部费用和税金，如人员工资、社会保险、加班费等各项福利，差旅费、邮寄费、物品损耗、项目所需设备等。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R055",
+          "category": "报价要求",
+          "description": "一次报价不得高于预算控制金额，二次报价不得高于一次报价，未按本规定报价的其报价无效。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R056",
+          "category": "报价要求",
+          "description": "最后报价是响应文件的有效组成部分，未按要求进行最后报价的，其响应文件将被否决。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "R057",
+          "category": "报价要求",
+          "description": "只能有一个有效报价，并按规定填报报价一览表。",
+          "mandatory": true,
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "R058",
+          "category": "报价要求",
+          "description": "如报价明显低于其他通过符合性审查供应商的报价，有可能影响履约，须提供书面说明及成本测算等证明材料，否则视为无效。",
+          "mandatory": true,
+          "page": null,
+          "section": "第五章 资格审查与评审办法"
+        },
+        {
+          "code": "R059",
+          "category": "报价要求",
+          "description": "报价货币为人民币，包括国家规定的增值税税金。",
+          "mandatory": true,
+          "page": null,
+          "section": "第二章 供应商须知"
+        }
+      ],
+      "score_items": [
+        {
+          "code": "S001",
+          "item": "磋商报价",
+          "score": 30.0,
+          "criteria": "价格分采用低价优先法计算，即满足磋商文件要求且最后报价最低的磋商报价为磋商基准价，其价格分为满分。其他供应商的价格分统一按照下列公式计算：磋商报价得分=（磋商基准价/最后报价）×30",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S002",
+          "item": "对本项目目标及需求的理解和分析",
+          "score": 7.0,
+          "criteria": "对项目背景、目标、需求等的理解和把握准确程度进行评审，包括供应商是否深刻理解项目背景、实施意义和实施内容，项目现状。对项目理解及需求分析准确透彻、条理清晰、内容全面，文字表达清楚、思路清晰的得7分；对项目理解及需求分析基本准确，较为清晰，内容较全面，文字表达较清楚、思路较清晰的得5分；对项目理解及需求分析基本完善，内容基本全面，思路基本清晰的得3分；对项目理解及需求分析不够完善，内容全面，思路不够清晰的得1分；未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S003",
+          "item": "全流程服务方案",
+          "score": 7.0,
+          "criteria": "在满足磋商文件基本要求的前提下，对供应商提供的全流程服务方案的科学、合理、可行性进行综合评审，方案内容应包括但不限于服务内容、服务思路、服务效率、服务流程、服务计划等方面：服务方案内容详实具体、全面可行，完全满足采购人需求的得7分；服务方案内容较详实具体、全面可行，能够满足采购人需求的得5分；服务方案内容基本可行、基本能够满足采购人需求的得3分；服务方案简单、内容模糊的得1分；未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S004",
+          "item": "重难点分析及应对措施",
+          "score": 5.0,
+          "criteria": "根据供应商提供的针对本项目实施过程中的重难点进行分析及提出的应对措施，对重难点分析的科学性及应对措施的合理性、可行性进行综合评审：重难点分析及应对措施内容完整详细、科学合理、可行性强的得5分；重难点分析及应对措施内容较为完整、合理、可行的得3分；重难点分析及应对措施内容基本完善、具有可行性的得1分；未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S005",
+          "item": "服务质量保障措施",
+          "score": 5.0,
+          "criteria": "根据供应商提供的针对本项目的服务质量保障措施（包括但不限于质量方案目标明确，质量管理体系健全，职责明确，质量保证措施可行等）进行综合评审：服务质量保障措施体系完整，对服务质量负责，措施科学、合理、可操作性强，有利于项目实施保障的得5分；服务质量保障措施体系内容较完整、合理、可操作性较强得3分；服务质量保障措施体系内容基本完整、合理，基本具有可操作性得1分；未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S006",
+          "item": "项目进度保证措施",
+          "score": 5.0,
+          "criteria": "根据供应商提供的针对本项目的项目进度，内容包括但不限于：各阶段进度保证措施、满足项目开展要求等内容进行综合评分：各阶段服务务必及时高效，不得影响进度。项目进度保证措施完整详细、可行性高，进度安排合理，满足要求的得5分；项目进度保证措施较为完整详细、可行性较高，进度安排较为合理，能够满足项目要求的得3分；项目进度保证措施基本完整，进度计划安排基本合理的得1分；未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S007",
+          "item": "人员培训",
+          "score": 5.0,
+          "criteria": "根据供应商提供的针对本项目的人员培训方案进行综合评审：人员培训方案包括但不限于服务意识以及应急处置能力等进行评价，具有完善的岗前培训和在岗培训制度，培训计划方案内容详实，科学、合理，考虑周全，措施到位，针对性强，充分满足使用方需要，对工作的开展与提升有较强的指导作用的得5分；内容完整，基本满足使用方需要的得3分；内容基本完整，满足使用方需要但有所欠缺的得1分；未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S008",
+          "item": "突发事件应急方案",
+          "score": 5.0,
+          "criteria": "根据供应商提供的针对本项目实施过程中的突发事件进行归纳总结以及突发事件应急方案的实用性、全面性、可行性进行综合评审：突发事件应急预案考虑周全、方案内容全面完善、实用性以及可操作性强的得5分；预案考虑较为周全、方案内容较为完善、可行的得3分；预案考虑基本合理、基本具有可操作性的得1分；未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S009",
+          "item": "风险防范措施",
+          "score": 5.0,
+          "criteria": "投标人对本项目审计风险防范措施情况制定风险防范措施。风险防范措施设置完整合理、可行性强得5分，设置较完整合理、可行性较强得3分，设置基本完整，可行性一般得1分，未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S010",
+          "item": "保密承诺及措施",
+          "score": 5.0,
+          "criteria": "根据投标人提供的针对本项目的保密承诺及措施进行综合评审：保密承诺及措施考虑周全、内容全面完善、实用性以及可操作性强的得5分；保密承诺及措施较为周全、内容较为完善、可行的得3分；保密承诺及措施基本合理、基本具有可操作性的得1分；未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S011",
+          "item": "成果数据汇集整理措施",
+          "score": 5.0,
+          "criteria": "成果数据汇集整理程序条理清晰，切实可行合理的将项目成果数据汇集整理的得5分；成果数据汇集整理程序条理基本清晰，基本可行的得3分；成果数据汇集整理程序比较混乱，可行性差得1分；未提供的不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S012",
+          "item": "企业业绩",
+          "score": 6.0,
+          "criteria": "供应商自2023年1月1日（以签订合同时间为准）以来，承接过类似项目，每提供一份得2分，本项最高得6分。 （须在响应文件中附合同的原件复印件并加盖供应商单位公章，否则不得分）",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S013",
+          "item": "人员配备",
+          "score": 4.0,
+          "criteria": "除项目负责人外，拟投入项目成员具有执业注册会计师的，每提供一个得1分，最多得4分。 （须在响应文件中附相关证书原件复印件，并加盖供应商单位公章，否则不得分）",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "S014",
+          "item": "服务承诺",
+          "score": 6.0,
+          "criteria": "1、供应商承诺与采购人积极配合、为采购人排忧解难，服从招标人安排，按时保质保量完成各项任务。有此承诺的得2分，没有的不得分。 2、供应商承诺在服务期间内如因供应商自身原因引起任何问题应及时处理，处理不及时或不到位造成的所有损失由供应商自行承担。有此承诺的得2分，没有的不得分。 3、供应商自身具有相关业务的服务规范管理规程。供应商承诺具有良好的服务意识，服从采购人管理、保证以良好的服务态度提供服务。有此承诺的得2分，没有的不得分。 须在响应文件中提供承诺书并加盖供应商单位公章，承诺书格式自拟，不提供不得分。",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        }
+      ],
+      "risks": [
+        {
+          "code": "Risk001",
+          "description": "代理服务费由成交供应商支付，不足3000元按3000元计取，需在报价中综合考虑，增加成本。",
+          "level": "medium",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk002",
+          "description": "供应商可投多个包但最多只能中一个包，限制中标机会。",
+          "level": "low",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk003",
+          "description": "本项目不接受联合体投标，可能限制部分供应商参与。",
+          "level": "low",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk004",
+          "description": "服务期三年但合同一年一签，根据分配的审计项目，存在续签不确定性。",
+          "level": "medium",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk005",
+          "description": "审计报告提交期限90日历天，时间较紧，尤其每年审计覆盖2个会计年度。",
+          "level": "medium",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk006",
+          "description": "预算控制金额较低（3包为每年11家每家3000元，总3.3万/年），可能难以覆盖全部成本。",
+          "level": "high",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk007",
+          "description": "供应商需提供信用承诺函，采购人有权在签订合同前要求提供证明材料核实真实性，若虚假承诺将受罚。",
+          "level": "medium",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk008",
+          "description": "供应商负责人为同一人或存在控股管理关系不得同时投标，需提供国家企业信用信息公示系统查询截图，否则资格不通过。",
+          "level": "medium",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk009",
+          "description": "获取采购文件需现场获取，时间仅5个工作日，可能因错过时间无法参与。",
+          "level": "low",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk010",
+          "description": "供应商需在响应文件中附相关证件原件复印件并加盖公章，否则可能资格审查不通过或不得分。",
+          "level": "medium",
+          "page": null,
+          "section": "第一章 竞争性磋商公告"
+        },
+        {
+          "code": "Risk011",
+          "description": "付款方式未明确，具体以实际签订合同为准，存在不确定性。",
+          "level": "medium",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk012",
+          "description": "履约验收作为付款依据，验收不合格可能影响付款。",
+          "level": "low",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk013",
+          "description": "响应文件需胶装，不得采用活页夹，增加制作成本。",
+          "level": "low",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk014",
+          "description": "响应文件密封要求严格，投多个包需分别密封，否则不予接收。",
+          "level": "medium",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk015",
+          "description": "报价不得超过预算控制金额，二次报价不得高于一次报价，否则无效。",
+          "level": "medium",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk016",
+          "description": "报价需包含所有费用和税金（人员工资、社保、差旅等），成本压力大。",
+          "level": "medium",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk017",
+          "description": "磋商文件澄清修改通过网站公布，供应商需自行关注，未及时获取风险自担。",
+          "level": "medium",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk018",
+          "description": "解释权归采购人，可能对供应商不利。",
+          "level": "low",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk019",
+          "description": "供应商不得存在禁止投标情形（失信、重大税收违法等），需自行查询保证符合。",
+          "level": "medium",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk020",
+          "description": "质疑期限为知道权益受损之日起7个工作日且一次性实名提出，要求严格。",
+          "level": "medium",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk021",
+          "description": "公章要求严格：指行政章，不接受合同章、投标专用章等。",
+          "level": "low",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk022",
+          "description": "采购成果知识产权归采购人，侵权后果由成交供应商承担。",
+          "level": "medium",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk023",
+          "description": "响应文件有效期90天，短于该期限的响应将被拒绝。",
+          "level": "low",
+          "page": null,
+          "section": "第二章 供应商须知"
+        },
+        {
+          "code": "Risk024",
+          "description": "侵权责任：若项目成果侵犯第三方知识产权，供应商承担全部责任并赔偿采购人损失。",
+          "level": "high",
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "Risk025",
+          "description": "供应商需承诺全面响应服务内容及要求，否则视为无效履约，取消中标资格。",
+          "level": "medium",
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "Risk026",
+          "description": "审计工作底稿等资料服务期满后全部移交采购人，不得擅自留存。",
+          "level": "low",
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "Risk027",
+          "description": "成交供应商原因导致项目延误或无法按原计划执行，需承担法律责任并赔偿损失。",
+          "level": "medium",
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "Risk028",
+          "description": "供应商所有工作人员需遵守采购人规章制度，因供应商工作失职造成事故损失由供应商承担。",
+          "level": "high",
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "Risk029",
+          "description": "服务期内利用采购人技术资料完成的新的技术成果归采购人所有。",
+          "level": "medium",
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "Risk030",
+          "description": "保密义务严格，服务期满后仍需持续保密，不得留存涉密资料。",
+          "level": "medium",
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "Risk031",
+          "description": "项目团队人员相对稳定，更换核心项目负责人需提前书面报备并经同意，且更换后人员资质不得低于原人员。",
+          "level": "medium",
+          "page": null,
+          "section": "第三章 采购需求"
+        },
+        {
+          "code": "Risk032",
+          "description": "合同违约责任条款中违约金比例空白，具体签约时可能不确定，对供应商不利。",
+          "level": "medium",
+          "page": null,
+          "section": "第四章 合同（样本）"
+        },
+        {
+          "code": "Risk033",
+          "description": "合同争议解决方式为向甲方注册地法院诉讼，可能增加供应商维权成本。",
+          "level": "low",
+          "page": null,
+          "section": "第四章 合同（样本）"
+        },
+        {
+          "code": "Risk034",
+          "description": "履约验收：服务两次限期整改仍不合格，甲方有权拒收并解除合同，损失由乙方承担。",
+          "level": "high",
+          "page": null,
+          "section": "第四章 合同（样本）"
+        },
+        {
+          "code": "Risk035",
+          "description": "售后服务要求响应迅速（2小时响应，1日到场，3日解决），否则免费补偿替换，要求高。",
+          "level": "medium",
+          "page": null,
+          "section": "第四章 合同（样本）"
+        },
+        {
+          "code": "Risk036",
+          "description": "供应商不得分包、转包，否则违约。",
+          "level": "medium",
+          "page": null,
+          "section": "第四章 合同（样本）"
+        },
+        {
+          "code": "Risk037",
+          "description": "异常低价审查程序：报价低于平均水平50%等可能被要求澄清，不能证明合理则无效。",
+          "level": "high",
+          "page": null,
+          "section": "第五章 资格审查与评审办法"
+        },
+        {
+          "code": "Risk038",
+          "description": "串通投标认定条款宽泛，不同供应商响应文件由同一单位编制等即视为串标，风险高。",
+          "level": "high",
+          "page": null,
+          "section": "第五章 资格审查与评审办法"
+        },
+        {
+          "code": "Risk039",
+          "description": "评审中可能要求现场澄清，但不接受主动澄清，需注意。",
+          "level": "low",
+          "page": null,
+          "section": "第五章 资格审查与评审办法"
+        },
+        {
+          "code": "Risk040",
+          "description": "综合评分法主观分占比高（技术54+综合16=70分，经济30分），主观因素影响大。",
+          "level": "high",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "Risk041",
+          "description": "企业业绩要求2023年1月1日以来类似项目，每份2分最高6分，新企业或无业绩可能得分低。",
+          "level": "medium",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "Risk042",
+          "description": "人员配备要求除项目负责人外注册会计师每1分最多4分，需投入足够人员。",
+          "level": "low",
+          "page": null,
+          "section": "第六章 资格审查与评审标准"
+        },
+        {
+          "code": "Risk043",
+          "description": "响应文件制作要求：完全复制粘贴磋商文件或只写“符合”可能产生不利评审风险。",
+          "level": "medium",
+          "page": null,
+          "section": "第七章 响应文件格式"
+        },
+        {
+          "code": "Risk044",
+          "description": "最后报价需单独打印盖章，现场提交，需提前准备。",
+          "level": "low",
+          "page": null,
+          "section": "附件"
+        },
+        {
+          "code": "Risk045",
+          "description": "供应商须严格按规定准备响应文件，否则可能因资格审查未通过或响应无效。",
+          "level": "medium",
+          "page": 0,
+          "section": "供应商应注意的事项"
+        },
+        {
+          "code": "Risk046",
+          "description": "对虚假响应、围标串标等违法行为处罚严厉，列入不良行为名单，1-3年禁止参加政府采购活动。",
+          "level": "high",
+          "page": 0,
+          "section": "供应商应注意的事项"
+        },
+        {
+          "code": "Risk047",
+          "description": "截止时间后提交响应文件恕不受理，需提前到达。",
+          "level": "medium",
+          "page": 0,
+          "section": "供应商应注意的事项"
+        }
+      ],
+      "stats": {
+        "block_count": 660,
+        "section_count": 99,
+        "chunk_count": 90,
+        "text_chars": 32133
+      }
+    }
+  }
+}

@@ -32,22 +32,32 @@ class OpenAICompatClient(BaseLLMClient):
         self.model = model or settings.llm_model
         self.timeout = timeout or settings.llm_timeout
 
-    @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=1, max=10))
-    def _post(self, payload: dict) -> dict:
+    # reraise=True:重试耗尽后抛出原始异常(而非 tenacity.RetryError),便于上层识别与降级。
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=1, max=10),
+        reraise=True,
+    )
+    def _post(self, payload: dict, timeout: float | None = None) -> dict:
         url = f"{self.base_url}/chat/completions"
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
         }
+        effective_timeout = timeout or self.timeout
         try:
-            with httpx.Client(timeout=self.timeout) as client:
+            with httpx.Client(timeout=effective_timeout) as client:
                 resp = client.post(url, json=payload, headers=headers)
                 resp.raise_for_status()
                 return resp.json()
         except httpx.HTTPStatusError as exc:
             raise LLMError(f"LLM 调用失败: {exc.response.status_code} {exc.response.text}") from exc
+        except httpx.TimeoutException as exc:
+            raise LLMError(f"LLM 调用超时(>{effective_timeout}s)") from exc
+        except httpx.RequestError as exc:
+            raise LLMError(f"LLM 请求异常: {exc}") from exc
 
-    def chat(self, messages: list[dict], json_mode: bool = False) -> str:
+    def chat(self, messages: list[dict], json_mode: bool = False, timeout: float | None = None) -> str:
         payload: dict = {
             "model": self.model,
             "messages": messages,
@@ -56,26 +66,26 @@ class OpenAICompatClient(BaseLLMClient):
         if json_mode:
             payload["response_format"] = {"type": "json_object"}
 
-        data = self._post(payload)
+        data = self._post(payload, timeout=timeout)
         try:
             return data["choices"][0]["message"]["content"]
         except (KeyError, IndexError) as exc:
             raise LLMError(f"LLM 返回格式异常: {data}") from exc
 
-    def complete(self, prompt: str, system: str | None = None) -> str:
+    def complete(self, prompt: str, system: str | None = None, timeout: float | None = None) -> str:
         messages: list[dict] = []
         if system:
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
-        return self.chat(messages)
+        return self.chat(messages, timeout=timeout)
 
-    def complete_json(self, prompt: str, system: str | None = None) -> dict:
+    def complete_json(self, prompt: str, system: str | None = None, timeout: float | None = None) -> dict:
         """返回 JSON 对象(要求模型输出 json_object)。"""
         messages: list[dict] = []
         if system:
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
-        raw = self.chat(messages, json_mode=True)
+        raw = self.chat(messages, json_mode=True, timeout=timeout)
         return self._parse_json(raw)
 
     @staticmethod
