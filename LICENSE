@@ -1,0 +1,24 @@
+Copyright (c) 2026-present, BidOx (数牛智标). All rights reserved.
+
+本仓库（bidox-ai / ai-service/bixox-ai）为 BidOx 数牛智标平台的专有软件，
+与 `pyproject.toml` 中的 `license = { text = "Proprietary" }` 声明一致。
+
+PROPRIETARY AND CONFIDENTIAL
+
+未经版权持有人事先书面许可，任何个人或组织不得：
+  - 复制、分发、再许可、出售本软件或其任何部分；
+  - 将本软件或其衍生作品用于商业用途；
+  - 向第三方披露本软件的源代码、设计文档或内部实现细节。
+
+本软件按「现状」提供，不附带任何形式的明示或默示担保，包括但不限于
+对适销性、特定用途适用性及非侵权的担保。在任何情况下，版权持有人
+均不对因本软件或本软件的使用而产生的任何索赔、损害或其他责任负责。
+
+---
+
+第三方依赖说明：本仓库通过 PyPI 依赖若干开源组件（FastAPI、SQLAlchemy、
+pgvector、python-docx、PyMuPDF 等），这些组件各自遵循其原始许可证，
+详见 `pyproject.toml` 与 `uv.lock`。
+
+第三方模型说明：默认使用 BAAI/bge-m3（MIT）与 BAAI/bge-reranker-v2-m3，
+其许可证与使用条款由模型发布方规定，商用前请自行确认。
