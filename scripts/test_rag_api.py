@@ -12,6 +12,8 @@ import httpx
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8000"
 RAG = f"{BASE}/api/bidox/knowledge/rag"
+# tenantId 是必填字段(缺失/冲突会被拒),所有用例都跑在同一租户内。
+TENANT_ID = 1
 
 # 复用:当前招标约束(对应 /tender/analyze 的 Requirement/ScoreItem 出参)
 REQUIREMENTS = [
@@ -107,7 +109,7 @@ def run(name: str, body: dict) -> None:
 def main() -> None:
     print("RAG API 测试 →", RAG)
     for name, body in CASES:
-        run(name, body)
+        run(name, {"tenantId": TENANT_ID, **body})
     print(f"\n{'=' * 70}\n测试完成")
 
 

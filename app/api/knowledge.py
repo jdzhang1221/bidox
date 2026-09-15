@@ -2,19 +2,51 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter
+import time
 
-from app.api.schemas import ApiResponse, GenerateRequest, RagRequest, SearchRequest
+from fastapi import APIRouter
+from fastapi.responses import StreamingResponse
+
+from app.api.schemas import ApiResponse, GenerateRequest, QaStreamRequest, RagRequest, SearchRequest
+from app.knowledge.qa_stream import prepare_qa, stream_qa
 from app.knowledge.service import KnowledgeService
 
 router = APIRouter(prefix="/knowledge", tags=["knowledge"])
+
+
+@router.post("/qa-stream")
+async def qa_stream(req: QaStreamRequest) -> StreamingResponse:
+    """企业知识问答真流式接口（Java 内部调用）。
+
+    同步 DB/Embedding/Reranker 在有界 worker 池内完成，且在返回 StreamingResponse 前完成，
+    因而 tenant/检索/pre-stream 错误仍可由 FastAPI 正常返回 JSON；首个事件后只使用 SSE 终态。
+    """
+    deadline = time.monotonic() + req.timeout_millis / 1000.0
+    history = [item.model_dump() for item in req.history]
+    prepared = await prepare_qa(
+        question=req.question,
+        history=history,
+        tenant_id=req.tenant_id,
+        knowledge_base_id=req.knowledge_base_id,
+        top_k=req.top_k,
+        rerank=req.rerank,
+        deadline=deadline,
+    )
+    return StreamingResponse(
+        stream_qa(prepared, deadline=deadline),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache, no-transform",
+            "X-Accel-Buffering": "no",
+        },
+    )
 
 
 @router.post("/context", response_model=ApiResponse)
 def build_context(req: SearchRequest) -> ApiResponse:
     """检索并拼装 evidence context(供标书生成使用)。"""
     service = KnowledgeService()
-    context = service.build_context(req.query, top_k=req.top_k)
+    context = service.build_context(req.query, tenant_id=req.tenant_id, top_k=req.top_k)
     return ApiResponse(data={"context": context})
 
 
@@ -27,6 +59,7 @@ def generate(req: GenerateRequest) -> ApiResponse:
     service = KnowledgeService()
     result = service.generate(
         req.query,
+        tenant_id=req.tenant_id,
         top_k=req.top_k,
         document_type=req.document_type,
         enterprise_id=req.enterprise_id,
@@ -46,6 +79,7 @@ def rag(req: RagRequest) -> ApiResponse:
     service = KnowledgeService()
     result = service.rag(
         req.query,
+        tenant_id=req.tenant_id,
         enterprise_id=req.enterprise_id,
         knowledge_base_id=req.knowledge_base_id,
         document_types=req.document_types or req.filters.document_types or None,

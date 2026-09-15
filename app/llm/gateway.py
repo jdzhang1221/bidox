@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
 from functools import lru_cache
 
 from app.core.config import settings
 from app.core.logging import get_logger
-from app.llm.base import BaseLLMClient
+from app.llm.base import BaseLLMClient, LLMStreamChunk
 from app.llm.openai_compat import OpenAICompatClient
 
 logger = get_logger(__name__)
@@ -51,6 +52,12 @@ class LLMGateway:
         if hasattr(self._client, "complete_json"):
             return self._client.complete_json(prompt, system, timeout=timeout)  # type: ignore[union-attr]
         return self._client.complete(prompt, system, timeout=timeout)  # type: ignore[return-value]
+
+    async def stream_chat(
+        self, messages: list[dict], timeout: float | None = None
+    ) -> AsyncIterator[LLMStreamChunk]:
+        async for chunk in self._client.stream_chat(messages, timeout=timeout):
+            yield chunk
 
 
 @lru_cache

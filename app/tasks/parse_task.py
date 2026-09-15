@@ -20,7 +20,7 @@ def handle_parse_task(message: ParseTaskMessage) -> ParseResult:
     """
     logger.info("处理解析任务: task=%s document=%s", message.task_id, message.document_id)
 
-    storage = get_storage()
+    storage = get_storage(message.storage_provider)
     local_path = storage.download(message.file_url)
 
     pipeline = DocumentPipeline(document_id=message.document_id)

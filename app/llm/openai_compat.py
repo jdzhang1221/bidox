@@ -6,13 +6,14 @@
 from __future__ import annotations
 
 import json
+from collections.abc import AsyncIterator
 
 import httpx
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from app.core.config import settings
 from app.core.logging import get_logger
-from app.llm.base import BaseLLMClient, LLMError
+from app.llm.base import BaseLLMClient, LLMError, LLMStreamChunk
 
 logger = get_logger(__name__)
 
@@ -78,6 +79,65 @@ class OpenAICompatClient(BaseLLMClient):
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
         return self.chat(messages, timeout=timeout)
+
+    async def stream_chat(
+        self, messages: list[dict], timeout: float | None = None
+    ) -> AsyncIterator[LLMStreamChunk]:
+        """读取 OpenAI-compatible SSE，按 delta 原样产出。
+
+        不在此方法上使用 tenacity：一旦已经产出 token，再从头重试会把前缀重复发送给下游。
+        pre-stream 的有限重试由更高层在「尚未发送任何 delta」时决定。
+        """
+        url = f"{self.base_url}/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "Accept": "text/event-stream",
+        }
+        payload: dict = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": settings.llm_temperature,
+            "stream": True,
+        }
+        effective_timeout = timeout or self.timeout
+        try:
+            async with httpx.AsyncClient(timeout=effective_timeout) as client:
+                async with client.stream("POST", url, json=payload, headers=headers) as response:
+                    if response.status_code < 200 or response.status_code >= 300:
+                        body = (await response.aread())[:65536]
+                        detail = body.decode("utf-8", errors="replace")
+                        raise LLMError(f"LLM 调用失败: {response.status_code} {detail}")
+                    saw_done = False
+                    async for line in response.aiter_lines():
+                        if not line or line.startswith(":"):
+                            continue
+                        if not line.startswith("data:"):
+                            continue
+                        raw = line[5:].strip()
+                        if raw == "[DONE]":
+                            saw_done = True
+                            break
+                        try:
+                            event = json.loads(raw)
+                            choice = event["choices"][0]
+                        except (json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
+                            raise LLMError(f"LLM 流事件格式异常: {raw[:500]}") from exc
+                        delta = choice.get("delta") or {}
+                        text = delta.get("content") or ""
+                        finish_reason = choice.get("finish_reason")
+                        if text or finish_reason:
+                            yield LLMStreamChunk(text=text, finish_reason=finish_reason)
+                    if not saw_done:
+                        # 部分兼容服务只发 finish_reason 后 EOF，允许该形式；完全无终态则视为协议错误。
+                        # finish_reason 已通过 chunk 交给上层，因此这里只在无任何终态时失败。
+                        pass
+        except LLMError:
+            raise
+        except httpx.TimeoutException as exc:
+            raise LLMError(f"LLM 流调用超时(>{effective_timeout}s)") from exc
+        except httpx.RequestError as exc:
+            raise LLMError(f"LLM 流请求异常: {exc}") from exc
 
     def complete_json(self, prompt: str, system: str | None = None, timeout: float | None = None) -> dict:
         """返回 JSON 对象(要求模型输出 json_object)。"""

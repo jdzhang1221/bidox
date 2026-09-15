@@ -11,6 +11,7 @@ from app.knowledge.service import KnowledgeService
 from app.retrieval.query import QueryUnderstanding
 
 QUERY = "如何编写本项目的全过程质量管控措施？"
+TENANT_ID = 1
 ENTERPRISE_ID = 1
 KB_ID = 1001
 # 历史标书里的具体事实,新标书里绝不能出现
@@ -29,7 +30,7 @@ def main() -> None:
     # 2. Pattern 召回(type 过滤 + reranker 重排)
     print("\n=== Pattern 召回 ===")
     patterns = svc._retriever.search_patterns(
-        QUERY, top_k=5, enterprise_id=ENTERPRISE_ID, knowledge_base_id=KB_ID,
+        QUERY, tenant_id=TENANT_ID, top_k=5, enterprise_id=ENTERPRISE_ID, knowledge_base_id=KB_ID,
         pattern_types=intent.pattern_types,
     )
     for p in patterns:
@@ -66,7 +67,7 @@ def main() -> None:
 
     # 5. 完整 rag():四层结构 + 事实隔离
     print("\n=== rag() 四层结构 ===")
-    result = svc.rag(QUERY, enterprise_id=ENTERPRISE_ID, knowledge_base_id=KB_ID,
+    result = svc.rag(QUERY, tenant_id=TENANT_ID, enterprise_id=ENTERPRISE_ID, knowledge_base_id=KB_ID,
                      chunk_top_k=10, pattern_top_k=5)
     print("  keys:", sorted(result.keys()))
     for k in ("current_requirements", "patterns", "sections", "evidences", "enterprise_facts", "trace"):

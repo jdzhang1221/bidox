@@ -66,6 +66,8 @@ def init_db() -> None:
     """建表(开发环境用,生产建议用迁移工具)。"""
     from app.models import (  # noqa: F401  # 触发模型注册
         DocumentChunk,
+        DocumentIndexGuard,
+        DocumentPatternJob,
         DocumentRecord,
         DocumentSection,
         KnowledgeBase,

@@ -9,8 +9,10 @@ from sqlalchemy import select
 
 from app.core.config import settings
 from app.core.database import session_scope
+from app.core.doc_types import pattern_document_types as resolve_pattern_document_types
 from app.core.logging import get_logger
-from app.models.pattern import PatternSource, SolutionPattern
+from app.core.tenant import require_tenant_id
+from app.models.pattern import PatternSource, SolutionPattern, pattern_source_type_clause
 from app.retrieval.hybrid import DEFAULT_PATTERN_TOP_K, HybridRetriever
 from app.retrieval.query import QueryUnderstanding
 from app.retrieval.section import SectionRetriever
@@ -76,6 +78,7 @@ class KnowledgeService:
     def search(
         self,
         query: str,
+        tenant_id: int,
         top_k: int | None = None,
         document_types: list[str] | None = None,
         enterprise_id: int | None = None,
@@ -83,8 +86,10 @@ class KnowledgeService:
         rerank: bool = True,
     ) -> list[dict[str, Any]]:
         """混合检索,返回带可追溯信息的 chunk 列表。"""
+        tenant_id = require_tenant_id(tenant_id, where="KnowledgeService.search")
         return self._retriever.search(
             query,
+            tenant_id=tenant_id,
             top_k=top_k,
             document_types=document_types,
             enterprise_id=enterprise_id,
@@ -96,26 +101,39 @@ class KnowledgeService:
     def search_patterns(
         self,
         query: str,
+        tenant_id: int,
         top_k: int | None = None,
         enterprise_id: int | None = None,
         knowledge_base_id: int | None = None,
         pattern_types: list[str] | None = None,
         rerank: bool = True,
+        pattern_document_types: list[str] | None = None,
     ) -> list[dict[str, Any]]:
-        """方案组件检索,并回填 source 溯源(document/section/page)。"""
+        """方案组件检索,并回填 source 溯源(document/section/page)。
+
+        `pattern_document_types` 是来源文档类型白名单（§4.4），默认 QA 白名单（排除 tender）。
+        """
+        tenant_id = require_tenant_id(tenant_id, where="KnowledgeService.search_patterns")
         patterns = self._retriever.search_patterns(
             query,
+            tenant_id=tenant_id,
             top_k=top_k,
             enterprise_id=enterprise_id,
             knowledge_base_id=knowledge_base_id,
             pattern_types=pattern_types,
             rerank=rerank,
+            pattern_document_types=pattern_document_types,
         )
         return self._enrich_pattern_sources(patterns)
 
     # --- 溯源回填 ---
     @staticmethod
     def _enrich_pattern_sources(patterns: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """回填 pattern 的 source 溯源。
+
+        `pattern_source` 无 tenant 列,隔离靠 `pattern_id IN (已租户过滤的召回集合)` 继承:
+        只查这里拿到的 pattern_id,不做任何全库扩展。
+        """
         ids = [p.get("pattern_id") for p in patterns if p.get("pattern_id") is not None]
         if not ids:
             return patterns
@@ -145,22 +163,38 @@ class KnowledgeService:
 
     # --- fingerprint 去重 + 跨文档聚合 ---
     @staticmethod
-    def _dedupe_patterns(patterns: list[dict[str, Any]]) -> list[dict[str, Any]]:
-        """按 fingerprint 去重:同指纹只保留一个代表(score 最高,即 patterns 首个出现),聚合全部溯源。"""
+    def _dedupe_patterns(
+        patterns: list[dict[str, Any]],
+        *,
+        tenant_id: int,
+        knowledge_base_id: int | None = None,
+        pattern_document_types: list[str] | None = None,
+    ) -> list[dict[str, Any]]:
+        """按 fingerprint 去重:同指纹只保留一个代表(score 最高,即 patterns 首个出现),聚合全部溯源。
+
+        只在**同一租户(+ 同一知识库 + 同一来源文档类型范围)**内按 fingerprint 聚合复用次数。
+
+        两次修正叠在这里：
+        1. 原实现按 fingerprint 回查全库,会把其他租户的同指纹 pattern 及其 source 一并带出；
+        2. 只加 tenant 还不够 —— 同租户里可能有 tender 来源的同指纹 pattern（§4.4），
+           必须再用「来源文档类型白名单」把它挡在外面，否则会被聚合进来当代表。
+        """
+        tenant_id = require_tenant_id(tenant_id, where="KnowledgeService._dedupe_patterns")
         if not patterns:
             return []
         fps = [p.get("fingerprint") for p in patterns if p.get("fingerprint")]
         if not fps:
             return patterns
 
+        stmt = select(SolutionPattern).where(
+            SolutionPattern.fingerprint.in_(fps),
+            SolutionPattern.tenant_id == tenant_id,
+            pattern_source_type_clause(resolve_pattern_document_types(pattern_document_types)),
+        )
+        if knowledge_base_id is not None:
+            stmt = stmt.where(SolutionPattern.knowledge_base_id == knowledge_base_id)
         with session_scope() as session:
-            rows = (
-                session.execute(
-                    select(SolutionPattern).where(SolutionPattern.fingerprint.in_(fps))
-                )
-                .scalars()
-                .all()
-            )
+            rows = session.execute(stmt).scalars().all()
         by_fp: dict[str, list[SolutionPattern]] = {}
         for r in rows:
             by_fp.setdefault(r.fingerprint, []).append(r)
@@ -217,14 +251,19 @@ class KnowledgeService:
     # --- Pattern 知识节点:source 扩到兄弟章节 ---
     @staticmethod
     def _expand_pattern_sources(patterns: list[dict[str, Any]]) -> list[dict[str, Any]]:
-        """把每个 pattern 的 source 扩到「命中→父→兄弟」章节,形成方案知识节点。"""
+        """把每个 pattern 的 source 扩到「命中→父→兄弟」章节,形成方案知识节点。
+
+        章节表没有 tenant 列,所以把「该 pattern 自己的 source 文档集合」作为唯一可信范围传下去,
+        绝不按 section_id 直接跨库取章节。
+        """
         retriever = SectionRetriever()
         for p in patterns:
             sources = p.get("sources", [])
             sec_ids = {s.get("section_id") for s in sources if s.get("section_id")}
             if not sec_ids:
                 continue
-            related = retriever.expand(list(sec_ids))
+            allowed_docs = {s.get("document_id") for s in sources if s.get("document_id")}
+            related = retriever.expand(list(sec_ids), allowed_docs)
             seen = set(sec_ids)
             for r in related:
                 if r["id"] in seen:
@@ -377,14 +416,15 @@ class KnowledgeService:
         blocks.append(f"【企业事实】\n{facts_text}")
         return "\n\n".join(blocks)
 
-    def build_context(self, query: str, top_k: int | None = None) -> str:
+    def build_context(self, query: str, tenant_id: int, top_k: int | None = None) -> str:
         """把检索结果拼成 evidence context(供 LLM 使用)。"""
-        results = self.search(query, top_k=top_k)
+        results = self.search(query, tenant_id=tenant_id, top_k=top_k)
         return self._format_context(results)
 
     def generate(
         self,
         query: str,
+        tenant_id: int,
         top_k: int | None = None,
         document_type: str | None = None,
         enterprise_id: int | None = None,
@@ -401,11 +441,13 @@ class KnowledgeService:
         """
         result = self.rag(
             query,
+            tenant_id=tenant_id,
             enterprise_id=enterprise_id,
             knowledge_base_id=knowledge_base_id,
             document_types=[document_type] if document_type else None,
             pattern_top_k=pattern_top_k,
             chunk_top_k=top_k,
+            system_prompt=system_prompt,
         )
         sources = [
             {
@@ -431,6 +473,7 @@ class KnowledgeService:
         self,
         query: str,
         *,
+        tenant_id: int,
         enterprise_id: int | None = None,
         knowledge_base_id: int | None = None,
         document_types: list[str] | None = None,
@@ -444,6 +487,7 @@ class KnowledgeService:
         requirements: list[dict[str, Any]] | None = None,
         score_items: list[dict[str, Any]] | None = None,
         tender_text: str | None = None,
+        pattern_document_types: list[str] | None = None,
     ) -> dict[str, Any]:
         """RAG V2 全链路编排:
         intent → (pattern type 过滤 + chunk) → 去重 → pattern 知识节点 → section expansion
@@ -452,6 +496,7 @@ class KnowledgeService:
         返回 {query, intent, current_requirements, patterns, sections, evidences,
               enterprise_facts, answer, trace, context}。
         """
+        tenant_id = require_tenant_id(tenant_id, where="KnowledgeService.rag")
         # 1. 意图识别
         intent = QueryUnderstanding().classify(query)
         effective_types = list(pattern_types) if pattern_types else list(intent.pattern_types)
@@ -462,6 +507,7 @@ class KnowledgeService:
         # 3. 双通道召回
         retrieved = self._retriever.retrieve(
             query,
+            tenant_id=tenant_id,
             top_k=chunk_top_k,
             pattern_top_k=pattern_top_k,
             document_types=document_types,
@@ -469,24 +515,35 @@ class KnowledgeService:
             knowledge_base_id=knowledge_base_id,
             pattern_types=effective_types or None,
             rerank=rerank,
+            pattern_document_types=pattern_document_types,
         )
         patterns = self._enrich_pattern_sources(retrieved["patterns"])
         evidences = retrieved["evidences"]
 
         # 4. fingerprint 去重 + pattern 知识节点(source 扩到兄弟章节)
         if deduplicate:
-            patterns = self._dedupe_patterns(patterns)
+            patterns = self._dedupe_patterns(
+                patterns,
+                tenant_id=tenant_id,
+                knowledge_base_id=knowledge_base_id,
+                pattern_document_types=pattern_document_types,
+            )
         patterns = self._expand_pattern_sources(patterns)
 
         # 5. Section Expansion(chunk → 章节体系)
+        # 章节表没有 tenant 列,只允许在本次召回到的可信文档范围内扩父/兄弟章节。
         sections: list[dict[str, Any]] = []
         if section_expand:
             sec_ids = [e.get("section_id") for e in evidences if e.get("section_id") is not None]
-            sections = SectionRetriever().expand(sec_ids)
+            allowed_docs = {
+                e.get("document_id") for e in evidences if e.get("document_id") is not None
+            }
+            sections = SectionRetriever().expand(sec_ids, allowed_docs)
 
         # 6. 企业事实层(document_type 定向检索)
         enterprise_facts = self.search(
             query,
+            tenant_id=tenant_id,
             top_k=settings.enterprise_fact_top_k,
             document_types=settings.enterprise_fact_document_types,
             enterprise_id=enterprise_id,

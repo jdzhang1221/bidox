@@ -46,6 +46,13 @@ class Settings(BaseSettings):
     minio_bucket: str = "bidox"
     minio_secure: bool = False
 
+    # --- 本地文件存储 ---
+    # Java 侧本地存储(LocalFileClient)的根目录。Java 传给 AI 的 storageKey 是相对路径
+    # (如 bid-document/20260914/xxx.docx),AI 需要用它拼出真实绝对路径。
+    local_storage_base_dir: str = ""
+    # 默认存储提供者:local / minio。请求未显式指定 storageProvider 时生效。
+    storage_provider: str = "local"
+
     # --- Embedding ---
     embedding_model: str = "BAAI/bge-m3"
     embedding_device: str = "cpu"
@@ -72,6 +79,9 @@ class Settings(BaseSettings):
     llm_model: str = "deepseek-chat"
     llm_temperature: float = 0.1
     llm_timeout: float = 120.0
+    # 方案组件抽取的并发度(逐章节调 LLM,IO 密集)。串行跑 150+ 章节标书需 10 分钟以上,
+    # 并发后总耗时约降为 1/N。取值受 provider 限流约束,DeepSeek 建议 4~8。
+    pattern_extract_concurrency: int = 4
 
     # --- 切分 ---
     chunk_max_chars: int = 1200

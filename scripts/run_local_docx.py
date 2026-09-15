@@ -72,10 +72,10 @@ def _print_summary(result) -> None:
         print(f"  [{c.chunk_index}] ({c.section_type or '-'}) {text}")
 
 
-def _persist(result, document_id: int) -> None:
+def _persist(result, document_id: int, tenant_id: int) -> None:
     from app.knowledge.indexer import KnowledgeIndexer
 
-    KnowledgeIndexer().index_document(result, document_id)
+    KnowledgeIndexer().index_document(result, document_id, tenant_id=tenant_id)
 
 
 def _verify(document_id: int) -> None:
@@ -128,6 +128,7 @@ def main() -> None:
     parser.add_argument("path", help="本地文件路径")
     parser.add_argument("--document-id", type=int, default=1, help="document_id(默认 1)")
     parser.add_argument("--document-type", default="historical_bid", help="tender / historical_bid")
+    parser.add_argument("--tenant-id", type=int, default=1, help="tenant_id(默认 1,落库必填)")
     parser.add_argument("--print-ddl", action="store_true", help="打印建表语句(pgvector 扩展 + 三张表)")
     parser.add_argument("--no-db", action="store_true", help="只跑解析,不落库")
     args = parser.parse_args()
@@ -146,7 +147,7 @@ def main() -> None:
         print("\n(--no-db 已跳过落库)")
         return
 
-    _persist(result, args.document_id)
+    _persist(result, args.document_id, args.tenant_id)
     _verify(args.document_id)
 
 

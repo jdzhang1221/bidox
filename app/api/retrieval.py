@@ -17,6 +17,7 @@ def search(req: SearchRequest) -> ApiResponse:
     document_types = req.document_types or ([req.document_type] if req.document_type else None)
     results = service.search(
         req.query,
+        tenant_id=req.tenant_id,
         top_k=req.top_k,
         document_types=document_types,
         enterprise_id=req.enterprise_id,
@@ -31,6 +32,7 @@ def search_patterns(req: PatternSearchRequest) -> ApiResponse:
     service = KnowledgeService()
     patterns = service.search_patterns(
         req.query,
+        tenant_id=req.tenant_id,
         top_k=req.top_k,
         enterprise_id=req.enterprise_id,
         knowledge_base_id=req.knowledge_base_id,
