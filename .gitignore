@@ -27,14 +27,14 @@ env/
 .claude/settings.local.json
 
 # 数据与缓存
-data/
+/data/
 *.db
 *.sqlite3
-models/
+/models/
 .cache/
 
 # 日志
-logs/
+/logs/
 *.log
 
 # 测试
@@ -43,7 +43,7 @@ logs/
 htmlcov/
 
 # 临时文件
-tmp/
+/tmp/
 *.tmp
 
 # WorkBuddy 工作记忆(本地)
